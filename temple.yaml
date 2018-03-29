@@ -1,0 +1,7 @@
+_extensions: [jinja2_time.TimeExtension]
+_template: git@github.com:CloverHealth/temple-python-public.git
+_version: 81d22221b025a9e61ceb8df4d7eda8420f22619c
+deploy_branch: master
+module_name: pgmock
+repo_name: pgmock
+short_description: A library for mocking Postgres queries
