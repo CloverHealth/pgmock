@@ -8,6 +8,7 @@ flake8-logging-format==0.3.0
 flake8-mutable==1.2.0
 flake8==3.5.0
 psycopg2==2.7.3.2
+pycodestyle<2.4.0  # for compatibility with flake8
 pylint==1.8.2
 pytest==3.4.0
 pytest-mock==1.6.3
