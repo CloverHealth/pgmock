@@ -43,6 +43,10 @@ jobs:
       - run:
           <<: *dependencies
       - run: make validate
+  test_py34:
+    docker:
+      - image: circleci/python:3.4-stretch
+    <<: *test_boilerplate
   test_py35:
     docker:
       - image: circleci/python:3.5-stretch
@@ -74,6 +78,7 @@ workflows:
     jobs:
       - temple_check
       - lint
+      - test_py34
       - test_py35
       - test_py36
       - test_py37
@@ -81,6 +86,7 @@ workflows:
           requires:
             - temple_check
             - lint
+            - test_py34
             - test_py35
             - test_py36
             - test_py37
