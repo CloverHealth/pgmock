@@ -7,6 +7,7 @@ aliases:
       python3 -m venv ~/venv
       echo ". ~/venv/bin/activate" >> $BASH_ENV
       source $BASH_ENV
+      pip install -q -U pip setuptools
       make dependencies
   - &test_boilerplate
     environment:
