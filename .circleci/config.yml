@@ -14,11 +14,12 @@ aliases:
     steps:
       - checkout
       - run:
-          name: Install postgres
+          name: Install postgres and pandoc
           command: |
             sudo apt-get update && \
               sudo apt-get install \
-                postgresql-9.6
+                postgresql-9.6 \
+                pandoc
       - run:
           <<: *dependencies
       - run: make test
