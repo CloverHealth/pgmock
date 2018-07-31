@@ -1,7 +1,8 @@
 # Requirements for doing development
 
-# Keep pip unpinned and always update
+# Keep pip/setuptools unpinned and always update
 pip
+setuptools
 
 # Keep temple unpinned and always update
 temple
