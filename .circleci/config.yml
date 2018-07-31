@@ -15,12 +15,11 @@ aliases:
     steps:
       - checkout
       - run:
-          name: Install postgres and pandoc
+          name: Install postgres
           command: |
             sudo apt-get update && \
               sudo apt-get install \
-                postgresql-9.6 \
-                pandoc
+                postgresql-9.6
       - run:
           <<: *dependencies
       - run: make test
@@ -42,6 +41,12 @@ jobs:
       - image: *docker_image
     steps:
       - checkout
+      - run:
+          name: Install pandoc
+          command: |
+            sudo apt-get update && \
+              sudo apt-get install \
+                pandoc
       - run:
           <<: *dependencies
       - run: make validate
@@ -69,6 +74,12 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "af:a6:bf:48:f0:08:d6:0f:19:4f:fd:10:f2:9d:50:2c"
+      - run:
+          name: Install pandoc
+          command: |
+            sudo apt-get update && \
+              sudo apt-get install \
+                pandoc
       - run:
           <<: *dependencies
       - run: pip install -q -r deploy_requirements.txt
