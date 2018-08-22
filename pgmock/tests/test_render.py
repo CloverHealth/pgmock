@@ -23,7 +23,7 @@ TEST_UUID_STR = '754b2b75-96fb-4fcd-b719-adfe7ab45f11'  # nophi
     ([(True, False)], "VALUES (TRUE,FALSE)"),
     ([({'my': 'json'},)], "VALUES ('{\"my\": \"json\"}'::JSON)"),
     ([({"my": "quo'te"},)], "VALUES ('{\"my\": \"quo''te\"}'::JSON)"),
-    ([(uuid.UUID(TEST_UUID_STR),)], f"VALUES ('{TEST_UUID_STR}'::UUID)"),
+    ([(uuid.UUID(TEST_UUID_STR),)], "VALUES ('{}'::UUID)".format(TEST_UUID_STR)),
     pytest.mark.xfail(([(object(),)], None), raises=pgmock.exceptions.ValueSerializationError)
 ])
 def test_gen_values_list(rows, expected):
