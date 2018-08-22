@@ -8,7 +8,7 @@ import pytest_pgsql
 import pgmock.exceptions
 import pgmock.render
 
-TEST_UUID_STR = '754b2b75-96fb-4fcd-b719-adfe7ab45f11'  # nophi
+TEST_UUID_STR = '754b2b75-96fb-4fcd-b719-adfe7ab45f11'
 
 
 @pytest.mark.parametrize('rows, expected', [
