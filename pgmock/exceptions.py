@@ -233,7 +233,7 @@ class ValueSerializationError(Error):
     """Thrown when a Python value cannot be serialized to a postgres ``VALUES`` value.
 
     pgmock supports serializing the following Python types: bool, float,
-    int, str, dict (json), datetime, date, time (all time types support timezones).
+    int, str, dict (json), UUID, datetime, date, time (all time types support timezones).
 
     If the python type being serialized doesn't match, one must supply
     a column type hint when patching values. Open an issue on pgmock or contact
