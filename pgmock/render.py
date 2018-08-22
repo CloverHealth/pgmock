@@ -198,7 +198,7 @@ def _to_sql_value(val, col_type=None):
         dt.datetime: lambda v: "'%s'" % v.isoformat(),
         dt.date: lambda v: "'%s'" % v.isoformat(),
         dt.time: lambda v: "'%s'" % v.isoformat(),
-        uuid.UUID: lambda v: "'%s'" % str(v).replace("'", "''"),
+        uuid.UUID: lambda v: "'%s'" % str(v),
     }
     PG_TYPES = {
         dict: lambda v: 'JSON',
