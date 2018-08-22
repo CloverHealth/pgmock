@@ -10,6 +10,7 @@ import datetime as dt
 import functools
 import json
 import re
+import uuid
 
 import sqlalchemy as sqla
 
@@ -197,12 +198,14 @@ def _to_sql_value(val, col_type=None):
         dt.datetime: lambda v: "'%s'" % v.isoformat(),
         dt.date: lambda v: "'%s'" % v.isoformat(),
         dt.time: lambda v: "'%s'" % v.isoformat(),
+        uuid.UUID: lambda v: "'%s'" % str(v).replace("'", "''"),
     }
     PG_TYPES = {
         dict: lambda v: 'JSON',
         dt.datetime: lambda v: 'TIMESTAMP%s' % ('TZ' if v.tzinfo else ''),
         dt.date: lambda v: 'DATE',
         dt.time: lambda v: 'TIME%s' % ('TZ' if v.tzinfo else ''),
+        uuid.UUID: lambda v: 'UUID'
     }
     if not col_type and val.__class__ in PG_TYPES:
         col_type = PG_TYPES[val.__class__](val)
