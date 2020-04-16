@@ -306,7 +306,7 @@ def _gen_values(rows, cols=None, alias=None, select_all_from=False):
         values += ' LIMIT 0'
     if alias:
         # escape all, in order to avoid hitting reserved keywords
-        escaped_col_names = [f'"{col}"' for col in col_names]
+        escaped_col_names = ['"%s"' % (col) for col in col_names]
         values = '(%s) AS %s(%s)' % (values, alias, ','.join(escaped_col_names))
     if select_all_from:
         values = 'SELECT * FROM %s' % values
