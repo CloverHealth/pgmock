@@ -48,7 +48,9 @@ def test_gen_values_alias_w_null():
     rows = [(1, '1', 1.1), (2, '2', 2.2)]
     cols = ['a', 'b', 'c', 'fill']
     expression = pgmock.render._gen_values(rows, cols, 'd')
-    assert expression == "(VALUES (1,'1',1.1,null),(2,'2',2.2,null)) AS d(\"a\",\"b\",\"c\",\"fill\")"
+    assert (
+        expression == "(VALUES (1,'1',1.1,null),(2,'2',2.2,null)) AS d(\"a\",\"b\",\"c\",\"fill\")"
+    )
 
 
 @pytest.mark.parametrize('rows, cols, expected', [
