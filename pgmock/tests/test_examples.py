@@ -38,19 +38,19 @@ def test_patch_subquery_from_file(transacted_postgresql_db, tmpdir):
     # Patch the table of the subquery and verify it returns the proper results
     patched = pgmock.sql(subquery, pgmock.patch(
         pgmock.table('test_table'),
-        [('v1', 'v2'), ('v3', 'v4')],
-        ['c1', 'c2']
+        rows=[('v1', 'v2'), ('v3', 'v4')],
+        cols=['c1', 'c2']
     ))
-    assert patched == "SELECT * FROM  (VALUES ('v1','v2'),('v3','v4')) AS test_table(c1,c2)"
+    assert patched == "SELECT * FROM  (VALUES ('v1','v2'),('v3','v4')) AS test_table(\"c1\",\"c2\")"
 
     # Patches can also be applied with list of dictionaries, filling in only what's needed.
     # Column names must still be provided. null values will be filled for all missing columns
     patched = pgmock.sql(subquery, pgmock.patch(
         pgmock.table('test_table'),
-        [{'c1': 'v1'}, {'c2': 'v4'}],
-        ['c1', 'c2']
+        rows=[{'c1': 'v1'}, {'c2': 'v4'}],
+        cols=['c1', 'c2']
     ))
-    assert patched == "SELECT * FROM  (VALUES ('v1',null),(null,'v4')) AS test_table(c1,c2)"
+    assert patched == "SELECT * FROM  (VALUES ('v1',null),(null,'v4')) AS test_table(\"c1\",\"c2\")"
 
     results = list(transacted_postgresql_db.connection.execute(patched))
     assert results == [('v1', None), (None, 'v4')]
