@@ -62,8 +62,8 @@ def test_statement(query, start, end, expected):
         [pgmock.patch(pgmock.table('b'), [[1]], ['c1']),
          pgmock.patch(pgmock.table('c'), [[1]], ['c1'])],
         (
-            'select * from a; select * from  (VALUES (1)) AS b(c1);'
-            ' select * from  (VALUES (1)) AS c(c1)'
+            'select * from a; select * from  (VALUES (1)) AS b("c1");'
+            ' select * from  (VALUES (1)) AS c("c1")'
         )
     ),
     (
@@ -72,8 +72,8 @@ def test_statement(query, start, end, expected):
             pgmock.table('b'), [[1]], ['c1']).patch(
                 pgmock.table('c'), [[1]], ['c1'])],
         (
-            'select * from a; select * from  (VALUES (1)) AS b(c1);'
-            ' select * from  (VALUES (1)) AS c(c1)'
+            'select * from a; select * from  (VALUES (1)) AS b("c1");'
+            ' select * from  (VALUES (1)) AS c("c1")'
         )
     ),
     pytest.mark.xfail((
@@ -233,18 +233,18 @@ def test_nested_selection(transacted_postgresql_db, sql, selector):
     (
         'select * from t1 union all select * from t1',
         pgmock.patch(pgmock.table('t1')[0], [('val1.1',), ('val1.2',)], ['c1']),
-        "select * from  (VALUES ('val1.1'),('val1.2')) AS t1(c1) union all select * from t1"
+        "select * from  (VALUES ('val1.1'),('val1.2')) AS t1(\"c1\") union all select * from t1"
     ),
     (
         'select * from t1 union all select * from t1',
         pgmock.patch(pgmock.table('t1')[1], [('val1.1',), ('val1.2',)], ['c1']),
-        "select * from t1 union all select * from  (VALUES ('val1.1'),('val1.2')) AS t1(c1)"
+        "select * from t1 union all select * from  (VALUES ('val1.1'),('val1.2')) AS t1(\"c1\")"
     ),
     (
         'select * from t1 union all select * from t1',
         pgmock.patch(pgmock.table('t1')[:], [('val1.1',), ('val1.2',)], ['c1']),
-        ("select * from  (VALUES ('val1.1'),('val1.2')) AS t1(c1) union all"
-         " select * from  (VALUES ('val1.1'),('val1.2')) AS t1(c1)")
+        ("select * from  (VALUES ('val1.1'),('val1.2')) AS t1(\"c1\") union all"
+         " select * from  (VALUES ('val1.1'),('val1.2')) AS t1(\"c1\")")
     ),
     (
         'insert into a select * from t; insert into a select * from t',
@@ -259,20 +259,20 @@ def test_nested_selection(transacted_postgresql_db, sql, selector):
     (
         'select * from (select * from t) bb;select * from (select * from t) bb;',
         pgmock.patch(pgmock.subquery('bb'), [('val1.1',), ('val1.2',)], ['c1']),
-        ("select * from  (VALUES ('val1.1'),('val1.2')) AS bb(c1);"
-         "select * from  (VALUES ('val1.1'),('val1.2')) AS bb(c1);")
+        ("select * from  (VALUES ('val1.1'),('val1.2')) AS bb(\"c1\");"
+         "select * from  (VALUES ('val1.1'),('val1.2')) AS bb(\"c1\");")
     ),
     (
         'create table a as (select * from t); create table a as (select * from t)',
         pgmock.patch(pgmock.create_table_as('a'), [('val1.1',), ('val1.2',)], ['c1']),
-        ("create table a as SELECT * FROM (VALUES ('val1.1'),('val1.2')) AS pgmock(c1);"
-         " create table a as SELECT * FROM (VALUES ('val1.1'),('val1.2')) AS pgmock(c1)")
+        ("create table a as SELECT * FROM (VALUES ('val1.1'),('val1.2')) AS pgmock(\"c1\");"
+         " create table a as SELECT * FROM (VALUES ('val1.1'),('val1.2')) AS pgmock(\"c1\")")
     ),
     (
         'WITH bb AS (SELECT * FROM a), bb AS (SELECT * FROM c)',
         pgmock.patch(pgmock.cte('bb'), [('val1.1',), ('val1.2',)], ['c1']),
-        ("WITH bb AS ( SELECT * FROM (VALUES ('val1.1'),('val1.2')) AS pgmock(c1)),"
-         " bb AS ( SELECT * FROM (VALUES ('val1.1'),('val1.2')) AS pgmock(c1))")
+        ("WITH bb AS ( SELECT * FROM (VALUES ('val1.1'),('val1.2')) AS pgmock(\"c1\")),"
+         " bb AS ( SELECT * FROM (VALUES ('val1.1'),('val1.2')) AS pgmock(\"c1\"))")
     )
 ])
 def test_multiple_match_patching(transacted_postgresql_db, sql, selector, expected_sql):
@@ -391,7 +391,7 @@ def test_create_table_as_patched(query, table):
     """Tests patching an "create table as" statement from a query"""
     sql = pgmock.sql(query, pgmock.create_table_as(table).patch(rows=[(1,), (2,)],
                                                                 cols=['a']))
-    assert sql == 'create table a as SELECT * FROM (VALUES (1),(2)) AS pgmock(a)'
+    assert sql == 'create table a as SELECT * FROM (VALUES (1),(2)) AS pgmock("a")'
 
 
 @pytest.mark.parametrize('query, selectors, expected', [

@@ -10,6 +10,8 @@ flake8==3.5.0
 psycopg2==2.7.3.2
 pycodestyle<2.4.0  # for compatibility with flake8
 pylint==1.8.2
-pytest==3.4.0
-pytest-mock==1.6.3
+pytest==3.5.1
+pytest-mock==1.9.0
 pytest-pgsql==1.0.1
+# https://github.com/pytest-dev/pytest/issues/5903
+attrs==19.1 
