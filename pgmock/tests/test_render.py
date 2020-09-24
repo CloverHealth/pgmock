@@ -28,7 +28,7 @@ TEST_UUID_STR = '754b2b75-96fb-4fcd-b719-adfe7ab45f11'
     pytest.param(
         [
             [  # 1st row
-                [1, 2, 3], # 1st col is an array
+                [1, 2, 3],  # 1st col is an array
             ]
         ],
         "VALUES (ARRAY[ 1,2,3 ])",
@@ -37,7 +37,7 @@ TEST_UUID_STR = '754b2b75-96fb-4fcd-b719-adfe7ab45f11'
     pytest.param(
         [
             [  # 1st row
-                (1, 2, 3), # 1st col is an tuple
+                (1, 2, 3),  # 1st col is an tuple
             ]
         ],
         "VALUES (ARRAY[ 1,2,3 ])",
@@ -46,7 +46,7 @@ TEST_UUID_STR = '754b2b75-96fb-4fcd-b719-adfe7ab45f11'
     pytest.param(
         [
             [  # 1st row
-                ["1", "2", "3"], # 1st col is an array
+                ["1", "2", "3"],  # 1st col is an array
             ]
         ],
         "VALUES (ARRAY[ '1','2','3' ])",
