@@ -289,7 +289,7 @@ def _gen_values(rows, cols=None, alias=None, select_all_from=False):
     """
     # Postgres VALUES lists cannot syntactically handle empty lists. Instead,
     # make an empty row and limit the results to 0
-    empty_values = False if rows else True
+    empty_values = not rows
     rows = [[]] if not rows else rows
     cols = cols or []
     col_types = [None if '::' not in col else col.split('::')[1] for col in cols]
