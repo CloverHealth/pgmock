@@ -18,3 +18,7 @@ jupyter==1.0.0
 # to install tox in the environment created by tox. It won't get used.
 tox==2.9.1
 tox-pyenv==1.1.0
+
+# Pin this version. otherwise will install 20.x.y which breaks the
+# dependencies.
+virtualenv==16.7.10
