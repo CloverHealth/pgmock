@@ -233,7 +233,6 @@ def _to_sql_value(val, col_type=None):
 def _row_to_sql_values(row, col_types):
     """Serializes an entire row to a Postgres VALUES list, filling in nulls for
        any columns that don't exist in the row"""
-    # import pdb; pdb.set_trace()
     if col_types and len(col_types) > len(row):
         row = list(row) + [None] * (len(col_types) - len(row))
 
@@ -290,7 +289,6 @@ def _gen_values(rows, cols=None, alias=None, select_all_from=False):
     """
     # Postgres VALUES lists cannot syntactically handle empty lists. Instead,
     # make an empty row and limit the results to 0
-    # import pdb; pdb.set_trace()
     empty_values = False if rows else True
     rows = [[]] if not rows else rows
     cols = cols or []
