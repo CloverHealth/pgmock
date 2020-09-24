@@ -187,6 +187,10 @@ def _get_end_statement(sql, start):
     return len(sql) if found == -1 else found
 
 
+def _render_list_or_tuple(list_or_tuple):
+    return "ARRAY[ %s ]" % ",".join(_to_sql_value(ele) for ele in list_or_tuple)
+
+
 def _to_sql_value(val, col_type=None):
     """Serializes a value into a Postgres VALUE string"""
     PG_VALUE_SERIALIZERS = {
@@ -195,6 +199,8 @@ def _to_sql_value(val, col_type=None):
         int: str,
         float: str,
         dict: lambda v: "'%s'" % json.dumps(v).replace("'", "''"),
+        list: _render_list_or_tuple,
+        tuple: _render_list_or_tuple,
         dt.datetime: lambda v: "'%s'" % v.isoformat(),
         dt.date: lambda v: "'%s'" % v.isoformat(),
         dt.time: lambda v: "'%s'" % v.isoformat(),
@@ -227,6 +233,7 @@ def _to_sql_value(val, col_type=None):
 def _row_to_sql_values(row, col_types):
     """Serializes an entire row to a Postgres VALUES list, filling in nulls for
        any columns that don't exist in the row"""
+    # import pdb; pdb.set_trace()
     if col_types and len(col_types) > len(row):
         row = list(row) + [None] * (len(col_types) - len(row))
 
@@ -283,6 +290,7 @@ def _gen_values(rows, cols=None, alias=None, select_all_from=False):
     """
     # Postgres VALUES lists cannot syntactically handle empty lists. Instead,
     # make an empty row and limit the results to 0
+    # import pdb; pdb.set_trace()
     empty_values = False if rows else True
     rows = [[]] if not rows else rows
     cols = cols or []
