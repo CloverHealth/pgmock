@@ -69,7 +69,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "af:a6:bf:48:f0:08:d6:0f:19:4f:fd:10:f2:9d:50:2c"
+            - "2a:d0:4c:ad:c8:3a:4f:47:19:e2:52:0d:26:a4:6d:10"
       - run:
           name: Install pandoc
           command: |
