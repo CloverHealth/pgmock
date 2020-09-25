@@ -1,7 +1,23 @@
 CHANGES
 =======
 
-1.3.3
+1.3.7
+-----
+
+* INC-1 Triggered the build
+
+1.3.6
+-----
+
+* INC-1 Update the deployment deploy\_requirements.txt
+
+1.3.5
+-----
+
+* Add support for rendering a python list and tuple as postgres Array (#5)
+* Fix column name of reserved keywords causes syntax error (#4)
+
+1.3.4
 -----
 
 * Add UUID type to \_to\_sql\_value() (#3)
