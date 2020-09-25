@@ -24,7 +24,34 @@ TEST_UUID_STR = '754b2b75-96fb-4fcd-b719-adfe7ab45f11'
     ([({'my': 'json'},)], "VALUES ('{\"my\": \"json\"}'::JSON)"),
     ([({"my": "quo'te"},)], "VALUES ('{\"my\": \"quo''te\"}'::JSON)"),
     ([(uuid.UUID(TEST_UUID_STR),)], "VALUES ('{}'::UUID)".format(TEST_UUID_STR)),
-    pytest.mark.xfail(([(object(),)], None), raises=pgmock.exceptions.ValueSerializationError)
+    pytest.mark.xfail(([(object(),)], None), raises=pgmock.exceptions.ValueSerializationError),
+    pytest.param(
+        [
+            [  # 1st row
+                [1, 2, 3],  # 1st col is an array
+            ]
+        ],
+        "VALUES (ARRAY[ 1,2,3 ])",
+        id="render a list"
+    ),
+    pytest.param(
+        [
+            [  # 1st row
+                (1, 2, 3),  # 1st col is an tuple
+            ]
+        ],
+        "VALUES (ARRAY[ 1,2,3 ])",
+        id="render a tuple"
+    ),
+    pytest.param(
+        [
+            [  # 1st row
+                ["1", "2", "3"],  # 1st col is an array
+            ]
+        ],
+        "VALUES (ARRAY[ '1','2','3' ])",
+        id="render a list of string"
+    ),
 ])
 def test_gen_values_list(rows, expected):
     """Tests generating a VALUES list with pgmock.render._gen_values"""
