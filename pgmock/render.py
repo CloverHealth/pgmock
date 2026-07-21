@@ -253,7 +253,7 @@ def _convert_dict_rows_to_lists(dict_rows, cols):
 
         This function intentianally pre-allocates lists and does try/excepts
         around the full body for key errors in order to remain speedy and
-        avoid unecessary branching / lookups.
+        avoid unnecessary branching / lookups.
     """
     col_pos = {col: i for i, col in enumerate(cols)}
     null_row = [None] * len(cols)
